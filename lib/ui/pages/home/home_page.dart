@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_app/router/routers.dart';
 import 'package:new_app/ui/pages/home/home_cubit.dart';
+import 'package:new_app/ui/pages/home/home_state.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -28,9 +29,9 @@ class _HomePageState extends State<HomePage> {
             const Text(
               'You have pushed the button this many times:',
             ),
-            BlocBuilder<HomeCubit, int>(
+            BlocBuilder<HomeCubit, HomeState>(
               builder: (context, state) => Text(
-                '$state',
+                '${state.count}',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
             ),
