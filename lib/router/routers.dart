@@ -11,13 +11,13 @@ class Routes {
     router.define(
       home,
       handler: homeHandler,
-      transitionType: TransitionType.fadeIn,
+      transitionType: TransitionType.inFromLeft,
     );
 
     router.define(
       setting,
       handler: settingHandler,
-      transitionType: TransitionType.fadeIn,
+      transitionType: TransitionType.inFromLeft,
     );
   }
 }

@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:new_app/commons/app_themes.dart';
 import 'package:new_app/router/application.dart';
 import 'package:new_app/router/routers.dart';
 
@@ -21,10 +22,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: AppThemes.theme,
       onGenerateRoute: Application.router?.generator,
       initialRoute: Routes.home,
     );
