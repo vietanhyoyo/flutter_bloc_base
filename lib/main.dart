@@ -4,6 +4,10 @@ import 'package:new_app/router/application.dart';
 import 'package:new_app/router/routers.dart';
 
 void main() {
+  loadApp();
+}
+
+void loadApp() {
   final router = FluroRouter();
   Routes.configureRoutes(router);
   Application.router = router;

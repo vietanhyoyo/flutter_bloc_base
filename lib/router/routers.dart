@@ -1,35 +1,22 @@
 import 'package:fluro/fluro.dart';
-import 'package:flutter/material.dart';
-import 'package:new_app/ui/pages/home/home_page.dart';
-import 'package:new_app/ui/pages/setting/setting_page.dart';
+import 'package:new_app/router/router_handler.dart';
 
 class Routes {
   static String home = "/";
   static String setting = "/setting";
 
   static void configureRoutes(FluroRouter router) {
-    router.notFoundHandler = Handler(
-      handlerFunc: (BuildContext? context, Map<String, List<String>> params) =>
-          Scaffold(
-        body: Center(
-          child: Text('$params'),
-        ),
-      ),
-    );
+    router.notFoundHandler = notHandler;
+
     router.define(
       home,
-      handler: Handler(
-          handlerFunc:
-              (BuildContext? context, Map<String, List<String>> params) =>
-                  const HomePage()),
+      handler: homeHandler,
       transitionType: TransitionType.fadeIn,
     );
+
     router.define(
       setting,
-      handler: Handler(
-          handlerFunc:
-              (BuildContext? context, Map<String, List<String>> params) =>
-                  const SettingPage()),
+      handler: settingHandler,
       transitionType: TransitionType.fadeIn,
     );
   }
