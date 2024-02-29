@@ -1,5 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
+import 'package:new_app/commons/app_environment.dart';
 import 'package:new_app/commons/app_themes.dart';
 import 'package:new_app/router/application.dart';
 import 'package:new_app/router/routers.dart';
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: AppThemes.theme,
+      debugShowCheckedModeBanner: currentEnvironment == Environment.dev,
       onGenerateRoute: Application.router?.generator,
       initialRoute: Routes.home,
     );
