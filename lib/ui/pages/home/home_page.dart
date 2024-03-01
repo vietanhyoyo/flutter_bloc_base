@@ -1,3 +1,4 @@
+import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_app/router/routers.dart';
@@ -5,9 +6,23 @@ import 'package:new_app/ui/pages/home/home_cubit.dart';
 import 'package:new_app/ui/pages/home/home_state.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+   HomePage({super.key});
 
   final String title = "Home";
+  final DateTime nowDate = DateTime.now();
+  final alarmSettings = AlarmSettings(
+    id: 42,
+    dateTime: DateTime(DateTime.now().year, DateTime.now().month,
+        DateTime.now().day, DateTime.now().hour, DateTime.now().minute + 1),
+    assetAudioPath: 'assets/alarm.mp3',
+    loopAudio: true,
+    vibrate: true,
+    volume: 0.8,
+    fadeDuration: 3.0,
+    notificationTitle: 'This is the title',
+    notificationBody: 'This is the body',
+    enableNotificationOnKill: true,
+  );
 
   @override
   State<HomePage> createState() => _HomePageState();
