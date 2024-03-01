@@ -1,5 +1,6 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
+import 'package:new_app/commons/app_assets.dart';
 
 class ExampleAlarmHomeShortcutButton extends StatefulWidget {
   final void Function() refreshAlarms;
@@ -30,7 +31,7 @@ class _ExampleAlarmHomeShortcutButtonState
     final alarmSettings = AlarmSettings(
       id: DateTime.now().millisecondsSinceEpoch % 10000,
       dateTime: dateTime,
-      assetAudioPath: 'assets/marimba.mp3',
+      assetAudioPath: AppAssets.auAudio2,
       volume: volume,
       notificationTitle: 'Alarm example',
       notificationBody:

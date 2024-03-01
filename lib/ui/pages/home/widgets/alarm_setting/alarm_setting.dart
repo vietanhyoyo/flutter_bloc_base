@@ -141,12 +141,12 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
                 child: loading
                     ? const CircularProgressIndicator()
                     : Text(
-                        "Save",
-                        style: Theme.of(context)
-                            .textTheme
-                            .titleLarge!
-                            .copyWith(color: Colors.blueAccent),
-                      ),
+                  "Save",
+                  style: Theme.of(context)
+                      .textTheme
+                      .titleLarge!
+                      .copyWith(color: Colors.blueAccent),
+                ),
               ),
             ],
           ),
@@ -201,29 +201,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Sound',
-                style: Theme.of(context).textTheme.titleMedium,
-              ),
-              DropdownButton(
-                value: assetAudio,
-                items: const [
-                  DropdownMenuItem<String>(
-                    value: AppAssets.auAudio1,
-                    child: Text('Audio 1'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: AppAssets.auAudio2,
-                    child: Text('Audio 2'),
-                  ),
-                ],
-                onChanged: (value) => setState(() => assetAudio = value!),
-              ),
-            ],
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
                 'Custom volume',
                 style: Theme.of(context).textTheme.titleMedium,
               ),
@@ -238,25 +215,25 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
             height: 30,
             child: volume != null
                 ? Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Icon(
-                        volume! > 0.7
-                            ? Icons.volume_up_rounded
-                            : volume! > 0.1
-                                ? Icons.volume_down_rounded
-                                : Icons.volume_mute_rounded,
-                      ),
-                      Expanded(
-                        child: Slider(
-                          value: volume!,
-                          onChanged: (value) {
-                            setState(() => volume = value);
-                          },
-                        ),
-                      ),
-                    ],
-                  )
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Icon(
+                  volume! > 0.7
+                      ? Icons.volume_up_rounded
+                      : volume! > 0.1
+                      ? Icons.volume_down_rounded
+                      : Icons.volume_mute_rounded,
+                ),
+                Expanded(
+                  child: Slider(
+                    value: volume!,
+                    onChanged: (value) {
+                      setState(() => volume = value);
+                    },
+                  ),
+                ),
+              ],
+            )
                 : const SizedBox(),
           ),
           if (!creating)

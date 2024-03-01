@@ -1,13 +1,22 @@
 class HomeState {
-  final int count;
+  final bool? isOpenNotification;
+  final bool? checkInOpen;
+  final bool? checkOutOpen;
 
-  HomeState({this.count = 0});
+  HomeState({this.isOpenNotification, this.checkInOpen, this.checkOutOpen});
 
   HomeState copyWith({
-    int? count,
+    bool? isOpenNotification,
+    bool? checkInOpen,
+    bool? checkOutOpen,
   }) {
     return HomeState(
-      count: count ?? this.count,
+      isOpenNotification: isOpenNotification ?? this.isOpenNotification,
+      checkInOpen: checkInOpen ?? this.checkInOpen,
+      checkOutOpen: checkOutOpen ?? this.checkOutOpen,
     );
   }
+
+  List<Object> get props =>
+      [isOpenNotification ?? true, checkInOpen ?? true, checkOutOpen ?? true];
 }

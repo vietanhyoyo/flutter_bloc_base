@@ -35,7 +35,7 @@ class MyApp extends StatelessWidget {
       theme: AppThemes.theme,
       debugShowCheckedModeBanner: currentEnvironment == Environment.dev,
       onGenerateRoute: Application.router?.generator,
-      initialRoute: Routes.alarm,
+      initialRoute: Routes.home,
     );
   }
 }
