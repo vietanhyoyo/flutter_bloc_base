@@ -1,14 +1,15 @@
 import 'dart:async';
 
 import 'package:alarm/alarm.dart';
-import 'package:alarm/model/alarm_settings.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_app/alarm_example/screens/ring.dart';
 import 'package:new_app/commons/app_dimens.dart';
 import 'package:new_app/commons/app_text_styte.dart';
+import 'package:new_app/models/interfaces/alarm_time.dart';
 import 'package:new_app/ui/pages/home/home_state.dart';
-import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting.dart';
+import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_cubit.dart';
+import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_modal.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'home_cubit.dart';
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> {
     });
 
     if (listAlarm.isEmpty) {
-      saveAlarm();
+      // saveAlarm();
     }
   }
 
@@ -100,7 +101,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void openAlarmSetting() {
+  void openAlarmSetting(AlarmTime time, Function() onSave) {
     showModalBottomSheet<bool?>(
         context: context,
         isScrollControlled: true,
@@ -110,7 +111,13 @@ class _HomePageState extends State<HomePage> {
         builder: (context) {
           return FractionallySizedBox(
             heightFactor: 0.75,
-            child: ExampleAlarmEditScreen(),
+            child: BlocProvider(
+              create: (context) => AlarmSettingCubit(),
+              child: AlarmEditModal(
+                alarmTime: time,
+                onSave: onSave,
+              ),
+            ),
           );
         });
   }
@@ -118,6 +125,8 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
+    homeCubit.initHomeState();
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
@@ -149,43 +158,66 @@ class _HomePageState extends State<HomePage> {
                 ],
               ),
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-                return Card(
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: AppDimens.p14),
-                        child: Row(
-                          children: [
-                            Expanded(child: Text("Check in")),
-                            Checkbox(
-                                value: state.checkInOpen ?? true,
-                                onChanged: (value) {
-                                  homeCubit.changeCheckInOpen();
-                                })
-                          ],
+                return GestureDetector(
+                  onTap: () {
+                    openAlarmSetting(state.checkInTime!, () {});
+                  },
+                  child: Card(
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(left: AppDimens.p14),
+                          child: Row(
+                            children: [
+                              Expanded(child: Text("Check in")),
+                              Checkbox(
+                                  value: state.checkInOpen ?? true,
+                                  onChanged: (value) {
+                                    homeCubit.changeCheckInOpen();
+                                  })
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(
-                            left: AppDimens.p14, bottom: AppDimens.p14),
-                        child: Row(
-                          children: [
-                            Expanded(
-                                child: Text(
-                              "15:43",
-                              style: AppTextStyle.title,
-                            )),
-                          ],
+                        Padding(
+                          padding: const EdgeInsets.only(
+                              left: AppDimens.p14, bottom: AppDimens.p14),
+                          child: Row(
+                            children: [
+                              Expanded(
+                                  child: Text(
+                                "${state.checkInTime!.hour}:${state.checkInTime!.minute}",
+                                style: AppTextStyle.title,
+                              )),
+                              Padding(
+                                padding:
+                                    const EdgeInsets.only(right: AppDimens.p14),
+                                child: Row(
+                                  children: [
+                                    for (int i = 0;
+                                        i < state.checkInTime!.dayList.length;
+                                        i++)
+                                      Padding(
+                                        padding: const EdgeInsets.only(
+                                            left: AppDimens.p6),
+                                        child: Text(
+                                          "${state.checkInTime!.dayList[i]}",
+                                        ),
+                                      )
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 );
               }),
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
                 return GestureDetector(
                   onTap: () {
-                    openAlarmSetting();
+                    openAlarmSetting(state.checkOutTime!, () {});
                   },
                   child: Card(
                     child: Column(
@@ -210,7 +242,7 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Expanded(
                                   child: Text(
-                                "15:43",
+                                "${state.checkOutTime!.hour}:${state.checkOutTime!.minute}",
                                 style: AppTextStyle.title,
                               )),
                             ],
