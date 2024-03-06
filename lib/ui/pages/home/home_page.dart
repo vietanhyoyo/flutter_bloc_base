@@ -4,7 +4,6 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_app/alarm_example/screens/ring.dart';
-import 'package:new_app/commons/app_colors.dart';
 import 'package:new_app/commons/app_dimens.dart';
 import 'package:new_app/commons/app_text_styte.dart';
 import 'package:new_app/constants/constants.dart';
@@ -146,20 +145,13 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.only(left: AppDimens.p8),
+                      padding: const EdgeInsets.symmetric(horizontal: AppDimens.p4, vertical: AppDimens.p10),
                       child: const Text(
-                        'Mở thông báo',
+                        'Quản lý thông báo',
                         style: AppTextStyle.title,
                       ),
                     ),
                   ),
-                  BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-                    return Switch(
-                        value: state.isOpenNotification ?? false,
-                        onChanged: (value) {
-                          homeCubit.changeOpenNotification();
-                        });
-                  })
                 ],
               ),
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {

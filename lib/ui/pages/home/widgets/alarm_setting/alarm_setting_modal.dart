@@ -7,6 +7,7 @@ import 'package:new_app/constants/constants.dart';
 import 'package:new_app/models/interfaces/alarm_time.dart';
 import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_cubit.dart';
 import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_state.dart';
+import 'package:new_app/utils/helper.dart';
 
 class AlarmEditModal extends StatefulWidget {
   final AlarmTime alarmTime;
@@ -115,7 +116,7 @@ class _AlarmEditModalState extends State<AlarmEditModal> {
                       padding: const EdgeInsets.symmetric(
                           horizontal: AppDimens.p24, vertical: AppDimens.p10),
                       child: Text(
-                          "-- ${state.alarmTime!.hour}:${state.alarmTime!.minute} --",
+                          "-- ${Helper.displayHour(state.alarmTime!.hour, state.alarmTime!.minute)} --",
                           style: AppTextStyle.extraLargePrimary),
                     ),
                   ),
