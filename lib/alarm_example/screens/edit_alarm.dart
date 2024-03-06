@@ -206,7 +206,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               ),
               DropdownButton(
                 value: assetAudio,
-                items: const [
+                items: [
                   DropdownMenuItem<String>(
                     value: AppAssets.auAudio1,
                     child: Text('Audio 1'),

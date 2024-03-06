@@ -4,12 +4,15 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_app/alarm_example/screens/ring.dart';
+import 'package:new_app/commons/app_colors.dart';
 import 'package:new_app/commons/app_dimens.dart';
 import 'package:new_app/commons/app_text_styte.dart';
+import 'package:new_app/constants/constants.dart';
 import 'package:new_app/models/interfaces/alarm_time.dart';
 import 'package:new_app/ui/pages/home/home_state.dart';
 import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_cubit.dart';
 import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_modal.dart';
+import 'package:new_app/utils/helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 import 'home_cubit.dart';
@@ -22,6 +25,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  late HomeCubit homeCubit;
   late List<AlarmSettings> alarms;
   static StreamSubscription<AlarmSettings>? subscription;
 
@@ -101,7 +105,8 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
-  void openAlarmSetting(AlarmTime time, Function() onSave) {
+  void openAlarmSetting(AlarmTime time,
+      Function(int hour, int minute, List<int> dayList) onSave) {
     showModalBottomSheet<bool?>(
         context: context,
         isScrollControlled: true,
@@ -124,7 +129,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
+    HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
     homeCubit.initHomeState();
 
     return Scaffold(
@@ -160,7 +165,8 @@ class _HomePageState extends State<HomePage> {
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
                 return GestureDetector(
                   onTap: () {
-                    openAlarmSetting(state.checkInTime!, () {});
+                    openAlarmSetting(
+                        state.checkInTime!, homeCubit.changeCheckInTime);
                   },
                   child: Card(
                     child: Column(
@@ -185,27 +191,35 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Expanded(
                                   child: Text(
-                                "${state.checkInTime!.hour}:${state.checkInTime!.minute}",
+                                Helper.displayHour(state.checkInTime!.hour,
+                                    state.checkInTime!.minute),
                                 style: AppTextStyle.title,
                               )),
                               Padding(
-                                padding:
-                                    const EdgeInsets.only(right: AppDimens.p14),
-                                child: Row(
-                                  children: [
-                                    for (int i = 0;
-                                        i < state.checkInTime!.dayList.length;
-                                        i++)
-                                      Padding(
-                                        padding: const EdgeInsets.only(
-                                            left: AppDimens.p6),
-                                        child: Text(
-                                          "${state.checkInTime!.dayList[i]}",
-                                        ),
-                                      )
-                                  ],
-                                ),
-                              )
+                                  padding: const EdgeInsets.only(
+                                      right: AppDimens.p8),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:
+                                        List.generate(weekDays.length, (index) {
+                                      bool dayIsSelected = state
+                                          .checkInTime!.dayList
+                                          .contains(weekDays[index]);
+
+                                      TextStyle style = dayIsSelected
+                                          ? AppTextStyle.largePrimary
+                                          : AppTextStyle.largeGrey;
+
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: AppDimens.p6),
+                                        child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(weekDayStrings[index],
+                                                style: style)),
+                                      );
+                                    }),
+                                  ))
                             ],
                           ),
                         ),
@@ -217,7 +231,8 @@ class _HomePageState extends State<HomePage> {
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
                 return GestureDetector(
                   onTap: () {
-                    openAlarmSetting(state.checkOutTime!, () {});
+                    openAlarmSetting(
+                        state.checkOutTime!, homeCubit.changeCheckOutTime);
                   },
                   child: Card(
                     child: Column(
@@ -242,9 +257,35 @@ class _HomePageState extends State<HomePage> {
                             children: [
                               Expanded(
                                   child: Text(
-                                "${state.checkOutTime!.hour}:${state.checkOutTime!.minute}",
+                                Helper.displayHour(state.checkOutTime!.hour,
+                                    state.checkOutTime!.minute),
                                 style: AppTextStyle.title,
                               )),
+                              Padding(
+                                  padding: const EdgeInsets.only(
+                                      right: AppDimens.p8),
+                                  child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children:
+                                        List.generate(weekDays.length, (index) {
+                                      bool dayIsSelected = state
+                                          .checkOutTime!.dayList
+                                          .contains(weekDays[index]);
+
+                                      TextStyle style = dayIsSelected
+                                          ? AppTextStyle.largePrimary
+                                          : AppTextStyle.largeGrey;
+
+                                      return Padding(
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: AppDimens.p6),
+                                        child: Align(
+                                            alignment: Alignment.center,
+                                            child: Text(weekDayStrings[index],
+                                                style: style)),
+                                      );
+                                    }),
+                                  ))
                             ],
                           ),
                         ),

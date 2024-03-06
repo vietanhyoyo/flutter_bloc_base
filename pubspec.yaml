@@ -44,10 +44,18 @@ dependencies:
   alarm: ^3.0.12
   #permisstion
   permission_handler: ^11.3.0
+  #local store
+  shared_preferences: ^2.2.2
+  #hive
+  hive: ^2.2.3
+  hive_flutter: ^1.1.0
+  #path
+  path_provider: ^2.1.2
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  hive_generator: ^2.0.1
 
 flavors:
   dev:

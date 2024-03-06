@@ -24,15 +24,15 @@ class HomeCubit extends Cubit<HomeState> {
     return emit(state.copyWith(checkOutOpen: !isOpen));
   }
 
-  void changeCheckInTime(int hours, int minutes, List<int> dayList) {
+  void changeCheckInTime(int hour, int minute, List<int> dayList) {
     return emit(state.copyWith(
         checkInTime:
-            AlarmTime(hour: hours, minute: minutes, dayList: dayList)));
+            AlarmTime(hour: hour, minute: minute, dayList: dayList)));
   }
 
-  void changeCheckOutTime(int hours, int minutes, List<int> dayList) {
+  void changeCheckOutTime(int hour, int minute, List<int> dayList) {
     return emit(state.copyWith(
         checkOutTime:
-            AlarmTime(hour: hours, minute: minutes, dayList: dayList)));
+            AlarmTime(hour: hour, minute: minute, dayList: dayList)));
   }
 }

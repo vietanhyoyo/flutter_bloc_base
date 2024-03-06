@@ -1,4 +1,8 @@
 class AppAssets {
-  static const String auAudio1 = 'assets/audio/audio1.mp3';
-  static const String auAudio2 = 'assets/audio/audio2.mp3';
+  ///Folders path
+  static final audioPath = 'assets/audio';
+
+  ///Audio
+  static final String auAudio1 = '${audioPath}/audio1.mp3';
+  static final String auAudio2 = '${audioPath}/audio2.mp3';
 }
