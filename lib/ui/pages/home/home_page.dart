@@ -4,6 +4,8 @@ import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:new_app/alarm_example/screens/ring.dart';
+import 'package:new_app/commons/app_assets.dart';
+import 'package:new_app/commons/app_colors.dart';
 import 'package:new_app/commons/app_dimens.dart';
 import 'package:new_app/commons/app_text_styte.dart';
 import 'package:new_app/constants/constants.dart';
@@ -133,8 +135,12 @@ class _HomePageState extends State<HomePage> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: Text("Home"),
+        backgroundColor: AppColors.primary,
+        title: Image(
+          image: AssetImage(AppAssets.logo),
+          height: 180,
+        ),
+        toolbarHeight: 100,
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -145,7 +151,8 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   Expanded(
                     child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: AppDimens.p4, vertical: AppDimens.p10),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: AppDimens.p4, vertical: AppDimens.p10),
                       child: const Text(
                         'Quản lý thông báo',
                         style: AppTextStyle.title,
@@ -153,6 +160,9 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ],
+              ),
+              SizedBox(
+                height: AppDimens.p10,
               ),
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
                 return GestureDetector(
@@ -220,6 +230,9 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               }),
+              SizedBox(
+                height: AppDimens.p10,
+              ),
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
                 return GestureDetector(
                   onTap: () {
