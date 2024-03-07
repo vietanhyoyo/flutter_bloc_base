@@ -1,6 +1,5 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
-import 'package:new_app/commons/app_assets.dart';
 
 class ExampleAlarmEditScreen extends StatefulWidget {
   final AlarmSettings? alarmSettings;
