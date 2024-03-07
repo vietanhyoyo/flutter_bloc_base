@@ -33,7 +33,7 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
       loopAudio = true;
       vibrate = true;
       volume = null;
-      assetAudio = 'assets/audio2.mp3';
+      assetAudio = 'assets/audio/audio2.mp3';
     } else {
       selectedDateTime = widget.alarmSettings!.dateTime;
       loopAudio = widget.alarmSettings!.loopAudio;
@@ -203,20 +203,6 @@ class _ExampleAlarmEditScreenState extends State<ExampleAlarmEditScreen> {
               Text(
                 'Sound',
                 style: Theme.of(context).textTheme.titleMedium,
-              ),
-              DropdownButton(
-                value: assetAudio,
-                items: [
-                  DropdownMenuItem<String>(
-                    value: AppAssets.auAudio1,
-                    child: Text('Audio 1'),
-                  ),
-                  DropdownMenuItem<String>(
-                    value: AppAssets.auAudio2,
-                    child: Text('Audio 2'),
-                  ),
-                ],
-                onChanged: (value) => setState(() => assetAudio = value!),
               ),
             ],
           ),

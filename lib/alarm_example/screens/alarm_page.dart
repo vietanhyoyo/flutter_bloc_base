@@ -18,7 +18,7 @@ class ExampleAlarmHomeScreen extends StatefulWidget {
 class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
   late List<AlarmSettings> alarms;
 
-  static StreamSubscription<AlarmSettings>? subscription;
+  // static StreamSubscription<AlarmSettings>? subscription;
 
   @override
   void initState() {
@@ -27,9 +27,9 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
       checkAndroidNotificationPermission();
     }
     loadAlarms();
-    subscription ??= Alarm.ringStream.stream.listen(
-      (alarmSettings) => navigateToRingScreen(alarmSettings),
-    );
+    // subscription ??= Alarm.ringStream.stream.listen(
+    //   (alarmSettings) => navigateToRingScreen(alarmSettings),
+    // );
   }
 
   void loadAlarms() {
@@ -91,7 +91,7 @@ class _ExampleAlarmHomeScreenState extends State<ExampleAlarmHomeScreen> {
 
   @override
   void dispose() {
-    subscription?.cancel();
+    // subscription?.cancel();
     super.dispose();
   }
 

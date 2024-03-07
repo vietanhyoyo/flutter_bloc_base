@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_app/alarm_example/screens/ring.dart';
 import 'package:new_app/commons/app_assets.dart';
 import 'package:new_app/commons/app_colors.dart';
 import 'package:new_app/commons/app_dimens.dart';
@@ -13,6 +12,8 @@ import 'package:new_app/models/interfaces/alarm_time.dart';
 import 'package:new_app/ui/pages/home/home_state.dart';
 import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_cubit.dart';
 import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_modal.dart';
+import 'package:new_app/ui/pages/ring/ring_page.dart';
+import 'package:new_app/utils/alarm_helper.dart';
 import 'package:new_app/utils/helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 
@@ -27,7 +28,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   late HomeCubit homeCubit;
-  late List<AlarmSettings> alarms;
   static StreamSubscription<AlarmSettings>? subscription;
 
   @override
@@ -37,62 +37,31 @@ class _HomePageState extends State<HomePage> {
       checkAndroidNotificationPermission();
     }
 
+    //Listening alarm ring
     subscription ??= Alarm.ringStream.stream.listen(
       (alarmSettings) => navigateToRingScreen(alarmSettings),
     );
-    loadAlarms();
   }
 
-  void loadAlarms() {
-    List<AlarmSettings> listAlarm = Alarm.getAlarms();
-    setState(() {
-      alarms = listAlarm;
-      // alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
-    });
+  void initCubit() {
+    homeCubit = BlocProvider.of<HomeCubit>(context);
+    homeCubit.initHomeState();
+  }
 
-    if (listAlarm.isEmpty) {
-      // saveAlarm();
+  void saveAlarm(AlarmTime alarmTime, int idKey) {
+    if (alarmTime.dayList.isEmpty) {
+      return;
     }
-  }
-
-  AlarmSettings buildAlarmSettings() {
-    final id = DateTime.now().millisecondsSinceEpoch % 10000;
-    final selectedDateTime = DateTime.now().add(const Duration(minutes: 1));
-    final loopAudio = true;
-    final vibrate = true;
-    final volume = null;
-    final assetAudio = 'assets/audio2.mp3';
-
-    final alarmSettings = AlarmSettings(
-      id: id,
-      dateTime: selectedDateTime,
-      loopAudio: loopAudio,
-      vibrate: vibrate,
-      volume: volume,
-      assetAudioPath: assetAudio,
-      notificationTitle: 'Alarm example',
-      notificationBody: 'Your alarm ($id) is ringing',
-    );
-    return alarmSettings;
-  }
-
-  void saveAlarm() {
-    Alarm.set(alarmSettings: buildAlarmSettings());
-    setState(() {
-      alarms = Alarm.getAlarms();
-      // alarms.sort((a, b) => a.dateTime.isBefore(b.dateTime) ? 0 : 1);
-    });
+    Alarm.set(alarmSettings: AlarmHelper.buildAlarmSettings(alarmTime, idKey));
   }
 
   Future<void> navigateToRingScreen(AlarmSettings alarmSettings) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) =>
-            ExampleAlarmRingScreen(alarmSettings: alarmSettings),
+        builder: (context) => RingPage(alarmSettings: alarmSettings),
       ),
     );
-    loadAlarms();
   }
 
   Future<void> checkAndroidNotificationPermission() async {
@@ -106,6 +75,7 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  ///Edit alarm clock
   void openAlarmSetting(AlarmTime time,
       Function(int hour, int minute, List<int> dayList) onSave) {
     showModalBottomSheet<bool?>(
@@ -129,9 +99,14 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void dispose() {
+    subscription?.cancel();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    HomeCubit homeCubit = BlocProvider.of<HomeCubit>(context);
-    homeCubit.initHomeState();
+    initCubit();
 
     return Scaffold(
       appBar: AppBar(
@@ -167,8 +142,17 @@ class _HomePageState extends State<HomePage> {
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
                 return GestureDetector(
                   onTap: () {
-                    openAlarmSetting(
-                        state.checkInTime!, homeCubit.changeCheckInTime);
+                    ///On setting alarm
+                    openAlarmSetting(state.checkInTime!,
+                        (hour, minute, dayList) {
+                      homeCubit.changeCheckInTime(hour, minute, dayList);
+                      if (state.checkInOpen! == true) {
+                        saveAlarm(
+                            AlarmTime(
+                                hour: hour, minute: minute, dayList: dayList),
+                            1);
+                      }
+                    });
                   },
                   child: Card(
                     child: Column(
@@ -182,6 +166,11 @@ class _HomePageState extends State<HomePage> {
                                   value: state.checkInOpen ?? true,
                                   onChanged: (value) {
                                     homeCubit.changeCheckInOpen();
+                                    if (value != null && value) {
+                                      saveAlarm(state.checkInTime!, 1);
+                                    } else {
+                                      Alarm.stop(1);
+                                    }
                                   })
                             ],
                           ),
@@ -236,8 +225,17 @@ class _HomePageState extends State<HomePage> {
               BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
                 return GestureDetector(
                   onTap: () {
-                    openAlarmSetting(
-                        state.checkOutTime!, homeCubit.changeCheckOutTime);
+                    ///On setting alarm
+                    openAlarmSetting(state.checkOutTime!,
+                        (hour, minute, dayList) {
+                      homeCubit.changeCheckOutTime(hour, minute, dayList);
+                      if (state.checkOutOpen! == true) {
+                        saveAlarm(
+                            AlarmTime(
+                                hour: hour, minute: minute, dayList: dayList),
+                            2);
+                      }
+                    });
                   },
                   child: Card(
                     child: Column(
@@ -251,6 +249,11 @@ class _HomePageState extends State<HomePage> {
                                   value: state.checkOutOpen ?? true,
                                   onChanged: (value) {
                                     homeCubit.changeCheckOutOpen();
+                                    if (value != null && value) {
+                                      saveAlarm(state.checkOutTime!, 2);
+                                    } else {
+                                      Alarm.stop(2);
+                                    }
                                   })
                             ],
                           ),
@@ -299,11 +302,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 );
               }),
-              for (int i = 0; i < alarms.length; i++)
-                Text(TimeOfDay(
-                  hour: alarms[i].dateTime.hour,
-                  minute: alarms[i].dateTime.minute,
-                ).format(context)),
             ],
           ),
         ),
