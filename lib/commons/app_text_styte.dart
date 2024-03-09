@@ -20,6 +20,16 @@ class AppTextStyle {
 
   static const TextStyle title = TextStyle(fontSize: AppDimens.fontExtra);
 
+  static const TextStyle timeTitlePrimary = TextStyle(
+    fontSize: AppDimens.fontLargeExtra,
+    color: AppColors.primary
+  );
+
+  static const TextStyle timeTitleGrey = TextStyle(
+    fontSize: AppDimens.fontLargeExtra,
+    color: AppColors.grey
+  );
+
   static const TextStyle extraLargePrimary =
       TextStyle(fontSize: AppDimens.fontSuperExtra, color: AppColors.primary);
 }

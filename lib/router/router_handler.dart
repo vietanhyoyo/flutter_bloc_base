@@ -1,7 +1,6 @@
 import 'package:fluro/fluro.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:new_app/alarm_example/screens/alarm_page.dart';
 import 'package:new_app/ui/pages/home/home_cubit.dart';
 import 'package:new_app/ui/pages/home/home_page.dart';
 import 'package:new_app/ui/pages/setting/setting_page.dart';
@@ -27,6 +26,3 @@ Handler settingHandler = Handler(
     handlerFunc: (BuildContext? context, Map<String, List<String>> params) =>
         const SettingPage());
 
-Handler alarmHandler = Handler(
-    handlerFunc: (BuildContext? context, Map<String, List<String>> params) =>
-    const ExampleAlarmHomeScreen());

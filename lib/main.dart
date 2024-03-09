@@ -1,6 +1,5 @@
 import 'package:alarm/alarm.dart';
 import 'package:fluro/fluro.dart';
-import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:new_app/data/local/hive_service.dart';
 import 'package:path_provider/path_provider.dart' as path;

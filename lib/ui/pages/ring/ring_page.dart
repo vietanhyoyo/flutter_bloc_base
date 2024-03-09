@@ -1,6 +1,7 @@
 import 'package:alarm/alarm.dart';
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:new_app/commons/app_assets.dart';
 import 'package:new_app/constants/constants.dart';
 import 'package:new_app/models/entities/alarm_entity/alarm_entity.dart';
 import 'package:new_app/models/interfaces/alarm_time.dart';
@@ -23,15 +24,15 @@ class RingPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Text(
-              "Your alarm (${alarmSettings.id}) is ringing...",
+              "Đã đến giờ chấm công!!!",
               style: Theme.of(context).textTheme.titleLarge,
             ),
-            const Text("🔔", style: TextStyle(fontSize: 50)),
+            Image.asset(AppAssets.gifCute),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                buildButton(context, "Remind", () => remindAlarm(context)),
-                buildButton(context, "Stop", () => stopAlarm(context)),
+                buildButton(context, "Nhắc lại sau 5 phút", () => remindAlarm(context)),
+                buildButton(context, "Dừng", () => stopAlarm(context)),
               ],
             ),
           ],
@@ -79,7 +80,7 @@ class RingPage extends StatelessWidget {
           now.minute,
           0,
           0,
-        ).add(const Duration(minutes: 1)),
+        ).add(const Duration(minutes: 5)),
       ),
     );
     Navigator.pop(context);

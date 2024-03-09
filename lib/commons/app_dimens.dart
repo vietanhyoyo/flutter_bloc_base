@@ -8,6 +8,7 @@ class AppDimens {
   static const double fontNormal = 14.0;
   static const double fontLarge = 16.0;
   static const double fontExtra = 18.0;
+  static const double fontLargeExtra = 30.0;
   static const double fontSuperExtra = 50.0;
 
   //Padding

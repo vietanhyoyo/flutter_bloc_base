@@ -117,194 +117,206 @@ class _HomePageState extends State<HomePage> {
         ),
         toolbarHeight: 100,
       ),
-      body: SingleChildScrollView(
-        child: Padding(
+      body: Padding(
           padding: const EdgeInsets.all(AppDimens.p14),
           child: Column(
-            children: <Widget>[
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: AppDimens.p4, vertical: AppDimens.p10),
-                      child: const Text(
-                        'Quản lý thông báo',
-                        style: AppTextStyle.title,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SingleChildScrollView(
+              child: Column(
+                children: <Widget>[
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(
+                              horizontal: AppDimens.p4, vertical: AppDimens.p10),
+                          child: const Text(
+                            'Quản lý thông báo',
+                            style: AppTextStyle.title,
+                          ),
+                        ),
                       ),
-                    ),
+                    ],
                   ),
+                  SizedBox(
+                    height: AppDimens.p10,
+                  ),
+                  BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                    return GestureDetector(
+                      onTap: () {
+                        ///On setting alarm
+                        openAlarmSetting(state.checkInTime!,
+                            (hour, minute, dayList) {
+                          homeCubit.changeCheckInTime(hour, minute, dayList);
+                          if (state.checkInOpen! == true) {
+                            saveAlarm(
+                                AlarmTime(
+                                    hour: hour, minute: minute, dayList: dayList),
+                                1);
+                          }
+                        });
+                      },
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: AppDimens.p14),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Text("Check-in")),
+                                  Checkbox(
+                                      value: state.checkInOpen ?? true,
+                                      onChanged: (value) {
+                                        homeCubit.changeCheckInOpen();
+                                        if (value != null && value) {
+                                          saveAlarm(state.checkInTime!, 1);
+                                        } else {
+                                          Alarm.stop(1);
+                                        }
+                                      })
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: AppDimens.p14, bottom: AppDimens.p14),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text(
+                                    Helper.displayHour(state.checkInTime!.hour,
+                                        state.checkInTime!.minute),
+                                    style: state.checkInOpen == true
+                                        ? AppTextStyle.timeTitlePrimary
+                                        : AppTextStyle.timeTitleGrey,
+                                  )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: AppDimens.p8),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:
+                                            List.generate(weekDays.length, (index) {
+                                          bool dayIsSelected = state
+                                              .checkInTime!.dayList
+                                              .contains(weekDays[index]);
+              
+                                          TextStyle style = dayIsSelected
+                                              ? AppTextStyle.largePrimary
+                                              : AppTextStyle.largeGrey;
+              
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: AppDimens.p6),
+                                            child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(weekDayStrings[index],
+                                                    style: style)),
+                                          );
+                                        }),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
+                  SizedBox(
+                    height: AppDimens.p10,
+                  ),
+                  BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
+                    return GestureDetector(
+                      onTap: () {
+                        ///On setting alarm
+                        openAlarmSetting(state.checkOutTime!,
+                            (hour, minute, dayList) {
+                          homeCubit.changeCheckOutTime(hour, minute, dayList);
+                          if (state.checkOutOpen! == true) {
+                            saveAlarm(
+                                AlarmTime(
+                                    hour: hour, minute: minute, dayList: dayList),
+                                2);
+                          }
+                        });
+                      },
+                      child: Card(
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(left: AppDimens.p14),
+                              child: Row(
+                                children: [
+                                  Expanded(child: Text("Check-out")),
+                                  Checkbox(
+                                      value: state.checkOutOpen ?? true,
+                                      onChanged: (value) {
+                                        homeCubit.changeCheckOutOpen();
+                                        if (value != null && value) {
+                                          saveAlarm(state.checkOutTime!, 2);
+                                        } else {
+                                          Alarm.stop(2);
+                                        }
+                                      })
+                                ],
+                              ),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(
+                                  left: AppDimens.p14, bottom: AppDimens.p14),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                      child: Text(
+                                    Helper.displayHour(state.checkOutTime!.hour,
+                                        state.checkOutTime!.minute),
+                                    style: state.checkOutOpen == true
+                                        ? AppTextStyle.timeTitlePrimary
+                                        : AppTextStyle.timeTitleGrey,
+                                  )),
+                                  Padding(
+                                      padding: const EdgeInsets.only(
+                                          right: AppDimens.p8),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children:
+                                            List.generate(weekDays.length, (index) {
+                                          bool dayIsSelected = state
+                                              .checkOutTime!.dayList
+                                              .contains(weekDays[index]);
+              
+                                          TextStyle style = dayIsSelected
+                                              ? AppTextStyle.largePrimary
+                                              : AppTextStyle.largeGrey;
+              
+                                          return Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: AppDimens.p6),
+                                            child: Align(
+                                                alignment: Alignment.center,
+                                                child: Text(weekDayStrings[index],
+                                                    style: style)),
+                                          );
+                                        }),
+                                      ))
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  }),
                 ],
-              ),
-              SizedBox(
-                height: AppDimens.p10,
-              ),
-              BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-                return GestureDetector(
-                  onTap: () {
-                    ///On setting alarm
-                    openAlarmSetting(state.checkInTime!,
-                        (hour, minute, dayList) {
-                      homeCubit.changeCheckInTime(hour, minute, dayList);
-                      if (state.checkInOpen! == true) {
-                        saveAlarm(
-                            AlarmTime(
-                                hour: hour, minute: minute, dayList: dayList),
-                            1);
-                      }
-                    });
-                  },
-                  child: Card(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: AppDimens.p14),
-                          child: Row(
-                            children: [
-                              Expanded(child: Text("Check in")),
-                              Checkbox(
-                                  value: state.checkInOpen ?? true,
-                                  onChanged: (value) {
-                                    homeCubit.changeCheckInOpen();
-                                    if (value != null && value) {
-                                      saveAlarm(state.checkInTime!, 1);
-                                    } else {
-                                      Alarm.stop(1);
-                                    }
-                                  })
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: AppDimens.p14, bottom: AppDimens.p14),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                Helper.displayHour(state.checkInTime!.hour,
-                                    state.checkInTime!.minute),
-                                style: AppTextStyle.title,
-                              )),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: AppDimens.p8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children:
-                                        List.generate(weekDays.length, (index) {
-                                      bool dayIsSelected = state
-                                          .checkInTime!.dayList
-                                          .contains(weekDays[index]);
-
-                                      TextStyle style = dayIsSelected
-                                          ? AppTextStyle.largePrimary
-                                          : AppTextStyle.largeGrey;
-
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: AppDimens.p6),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(weekDayStrings[index],
-                                                style: style)),
-                                      );
-                                    }),
-                                  ))
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
-              SizedBox(
-                height: AppDimens.p10,
-              ),
-              BlocBuilder<HomeCubit, HomeState>(builder: (context, state) {
-                return GestureDetector(
-                  onTap: () {
-                    ///On setting alarm
-                    openAlarmSetting(state.checkOutTime!,
-                        (hour, minute, dayList) {
-                      homeCubit.changeCheckOutTime(hour, minute, dayList);
-                      if (state.checkOutOpen! == true) {
-                        saveAlarm(
-                            AlarmTime(
-                                hour: hour, minute: minute, dayList: dayList),
-                            2);
-                      }
-                    });
-                  },
-                  child: Card(
-                    child: Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: AppDimens.p14),
-                          child: Row(
-                            children: [
-                              Expanded(child: Text("Check out")),
-                              Checkbox(
-                                  value: state.checkOutOpen ?? true,
-                                  onChanged: (value) {
-                                    homeCubit.changeCheckOutOpen();
-                                    if (value != null && value) {
-                                      saveAlarm(state.checkOutTime!, 2);
-                                    } else {
-                                      Alarm.stop(2);
-                                    }
-                                  })
-                            ],
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              left: AppDimens.p14, bottom: AppDimens.p14),
-                          child: Row(
-                            children: [
-                              Expanded(
-                                  child: Text(
-                                Helper.displayHour(state.checkOutTime!.hour,
-                                    state.checkOutTime!.minute),
-                                style: AppTextStyle.title,
-                              )),
-                              Padding(
-                                  padding: const EdgeInsets.only(
-                                      right: AppDimens.p8),
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children:
-                                        List.generate(weekDays.length, (index) {
-                                      bool dayIsSelected = state
-                                          .checkOutTime!.dayList
-                                          .contains(weekDays[index]);
-
-                                      TextStyle style = dayIsSelected
-                                          ? AppTextStyle.largePrimary
-                                          : AppTextStyle.largeGrey;
-
-                                      return Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            horizontal: AppDimens.p6),
-                                        child: Align(
-                                            alignment: Alignment.center,
-                                            child: Text(weekDayStrings[index],
-                                                style: style)),
-                                      );
-                                    }),
-                                  ))
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              }),
+              ),),
+              Padding(
+                padding: const EdgeInsets.all(AppDimens.p10),
+                child: Text('Copyright © 2024 | AnhBV'),
+              )
             ],
           ),
-        ),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }

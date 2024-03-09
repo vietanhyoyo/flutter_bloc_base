@@ -5,7 +5,6 @@ class Routes {
   /// Router path
   static String home = "/";
   static String setting = "/setting";
-  static String alarm = "/alarm";
 
   /// Setup route for the app
   static void configureRoutes(FluroRouter router) {
@@ -20,12 +19,6 @@ class Routes {
     router.define(
       setting,
       handler: settingHandler,
-      transitionType: TransitionType.inFromLeft,
-    );
-
-    router.define(
-      alarm,
-      handler: alarmHandler,
       transitionType: TransitionType.inFromLeft,
     );
   }

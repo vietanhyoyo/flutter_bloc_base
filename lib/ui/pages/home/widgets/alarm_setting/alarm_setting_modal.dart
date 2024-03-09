@@ -48,8 +48,6 @@ class _AlarmEditModalState extends State<AlarmEditModal> {
           hour: res.hour,
           minute: res.minute,
           dayList: state.alarmTime!.dayList));
-
-      widget.onSave(res.hour, res.minute, state.alarmTime!.dayList);
     }
   }
 
