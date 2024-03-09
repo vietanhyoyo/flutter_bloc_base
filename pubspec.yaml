@@ -51,6 +51,8 @@ dependencies:
   hive_flutter: ^1.1.0
   #path
   path_provider: ^2.1.2
+  #splash
+  flutter_native_splash: ^2.3.13
 
 dev_dependencies:
   flutter_test:
@@ -64,6 +66,16 @@ flutter_launcher_icons:
   ios: true
   image_path: "assets/logo/logo-icon.png"
   min_sdk_android: 21 # android min sdk min:16, default 21
+
+flutter_native_splash:
+  image: assets/logo/logo-icon.png
+  color: "#007cc1"
+  color_dark: "#007cc1"
+  android_12:
+    image: assets/logo/logo-icon.png
+    color: "#007cc1"
+    color_dark: "#007cc1"
+
 
 flavors:
   dev:

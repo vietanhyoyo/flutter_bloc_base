@@ -65,13 +65,13 @@ android {
     productFlavors {
         dev {
             dimension "flavors"
-            resValue "string", "app_name", "Flutter Dev"
+            resValue "string", "app_name", "VHEC Noti Dev"
             applicationIdSuffix ".dev"
         }
 
         prod {
             dimension "flavors"
-            resValue "string", "app_name", "Flutter"
+            resValue "string", "app_name", "VHEC Noti"
         }
     }
 }

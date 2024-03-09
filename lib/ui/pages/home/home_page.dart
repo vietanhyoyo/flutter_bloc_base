@@ -116,6 +116,7 @@ class _HomePageState extends State<HomePage> {
           height: 180,
         ),
         toolbarHeight: 100,
+        centerTitle: true,
       ),
       body: Padding(
           padding: const EdgeInsets.all(AppDimens.p14),
