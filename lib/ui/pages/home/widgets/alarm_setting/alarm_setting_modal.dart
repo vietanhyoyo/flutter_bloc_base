@@ -5,8 +5,8 @@ import 'package:new_app/commons/app_dimens.dart';
 import 'package:new_app/commons/app_text_styte.dart';
 import 'package:new_app/constants/constants.dart';
 import 'package:new_app/models/interfaces/alarm_time.dart';
-import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_cubit.dart';
-import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_state.dart';
+import 'package:new_app/ui/pages/home/widgets/alarm_setting/cubit/alarm_setting_cubit.dart';
+import 'package:new_app/ui/pages/home/widgets/alarm_setting/cubit/alarm_setting_state.dart';
 import 'package:new_app/utils/helper.dart';
 
 class AlarmEditModal extends StatefulWidget {

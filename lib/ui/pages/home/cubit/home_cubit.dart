@@ -3,7 +3,7 @@ import 'package:hive/hive.dart';
 import 'package:new_app/constants/constants.dart';
 import 'package:new_app/models/entities/alarm_entity/alarm_entity.dart';
 import 'package:new_app/models/interfaces/alarm_time.dart';
-import 'package:new_app/ui/pages/home/home_state.dart';
+import 'package:new_app/ui/pages/home/cubit/home_state.dart';
 
 class HomeCubit extends Cubit<HomeState> {
   HomeCubit() : super(HomeState());

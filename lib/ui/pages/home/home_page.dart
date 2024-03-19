@@ -9,15 +9,15 @@ import 'package:new_app/commons/app_dimens.dart';
 import 'package:new_app/commons/app_text_styte.dart';
 import 'package:new_app/constants/constants.dart';
 import 'package:new_app/models/interfaces/alarm_time.dart';
-import 'package:new_app/ui/pages/home/home_state.dart';
-import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_cubit.dart';
+import 'package:new_app/ui/pages/home/cubit/home_state.dart';
+import 'package:new_app/ui/pages/home/widgets/alarm_setting/cubit/alarm_setting_cubit.dart';
 import 'package:new_app/ui/pages/home/widgets/alarm_setting/alarm_setting_modal.dart';
 import 'package:new_app/ui/pages/ring/ring_page.dart';
 import 'package:new_app/utils/alarm_helper.dart';
 import 'package:new_app/utils/helper.dart';
 import 'package:permission_handler/permission_handler.dart';
 
-import 'home_cubit.dart';
+import 'cubit/home_cubit.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({super.key});
